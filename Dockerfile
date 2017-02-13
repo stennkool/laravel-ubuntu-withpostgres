@@ -1,8 +1,9 @@
 FROM ubuntu:16.10 
 MAINTAINER Stenn Kool <stennkool@gmail.com>
 
+RUN apt-get update && apt-get -y install supervisor git nginx curl php-fpm php-mcrypt php-json php-pgsql php-curl unzip php-xml php-mbstring php-gd certbot composer npm nodejs nodejs-legacy && apt-get -y autoremove && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get -y install supervisor git nginx curl php7.0-fpm php7.0-mcrypt php7.0-json php7.0-pgsql php7.0-curl unzip php7.0-xml php7.0-mbstring && apt-get -y autoremove && apt-get clean && rm -rf /var/lib/apt/lists/*
+COPY php.ini /etc/php/7.0/fpm/php.ini
 
 RUN /bin/rm /etc/nginx/sites-enabled/default
 
