@@ -9,6 +9,8 @@ RUN /bin/rm /etc/nginx/sites-enabled/default
 
 RUN /bin/mkdir /run/php
 
+RUN /bin/mkdir /root/.ssh/
+
 RUN locale-gen nl_NL
 
 COPY laravel.conf /etc/nginx/sites-enabled/laravel
@@ -17,6 +19,10 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-EXPOSE 80 443
+COPY run.sh /run.sh
 
-CMD ["/usr/bin/supervisord"]
+ENV repository invalid_repo
+
+EXPOSE 80
+
+CMD /bin/sh /run.sh
