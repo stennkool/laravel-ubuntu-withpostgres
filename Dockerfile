@@ -11,6 +11,10 @@ RUN /bin/mkdir /run/php
 
 RUN /bin/mkdir /root/.ssh/
 
+COPY laravel /var/www/
+
+WORKDIR /var/www/laravel
+
 RUN locale-gen nl_NL
 
 COPY laravel.conf /etc/nginx/sites-enabled/laravel
@@ -19,10 +23,12 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-COPY run.sh /run.sh
+RUN /bin/chmod -R 777 /var/www/laravel/storage
 
-ENV repository invalid_repo
+RUN /bin/chmod -R 777 /var/www/laravel/bootstrap/cache
+
+RUN /usr/bin/composer update
 
 EXPOSE 80
 
-CMD /bin/sh /run.sh
+CMD /usr/bin/supervisord
